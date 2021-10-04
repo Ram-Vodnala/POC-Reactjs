@@ -22,6 +22,8 @@ function Header(props) {
         }
     }
     function handleLogout() {
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
         props.history.push('/login')
     }
     return(

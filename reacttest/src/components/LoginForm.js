@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import './LoginForm/LoginForm.css';
-import { withRouter,Link, useHistory } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 
 function LoginForm(props) {
     
@@ -21,6 +21,8 @@ function LoginForm(props) {
 
     const handleSubmitClick = (e) => {
         e.preventDefault();
+        localStorage.setItem('email', state.email);
+        localStorage.setItem('password', state.password);
         const payload={
             "email":state.email,
             "password":state.password,
@@ -30,24 +32,22 @@ function LoginForm(props) {
         axios.get('http://localhost:3000/users', payload)
         
             .then(function (response) {
+              let Data= response.data.filter(d=>d.email===payload.email);
+                if(Data.length>0 && Data[0].password===payload.password){
+                  
              
-                if(response.status === 200 ){
-                  let Data= response.data.filter(d=>d.email==payload.email);
-                  if(Data.length>0 && Data[0].password==payload.password){
                     setState(prevState => ({
                       ...prevState,
                       'successMessage' : 'Login successful. Redirecting to home page..'
                      
                  }))
                  redirectToHome();
-                  }
+                 }
                   else{
-                  
-                    // alert('Please enter valid Credentials')
                     
-                    // props.showError('Please enter valid Credentials')
+                    props.showError('Please enter valid Credentials')
                   }
-                }
+               
 
                 
             })
@@ -62,8 +62,6 @@ function LoginForm(props) {
     let  history = useHistory();
     const redirectToHome = () => {
         history.push('/home');
-            props.updateTitle('Home')
-        props.history.push('/home');
     }
 
     return(

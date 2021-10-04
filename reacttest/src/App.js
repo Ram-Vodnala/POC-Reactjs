@@ -3,17 +3,18 @@ import './App.css';
 import Header from './components/Header/Header';
 import LoginForm from './components/LoginForm';
 import Home from './components/Home/Home';
-// import PrivateRoute from './utils/PrivateRoute';
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
+import AlertComponent from './components/error/ErrorAlert';
+import AuthRoute from './components/AuthRoute';
 
 
 function App() {
-  const [title, updateTitle] = useState(null);
-  const [errorMessage, updateErrorMessage] = useState(null);
+  const [title,updateTitle] = useState(null);
+  const [ errorMessage,updateErrorMessage] = useState(null);
 
   
 
@@ -21,17 +22,18 @@ function App() {
   return (
     <Router>
     <div className="App">
-      <Header/>
+      <Header title={title} />
        <div className="container d-flex align-items-center flex-column">
           <Switch>
 
             <Route path="/login">
               <LoginForm showError={updateErrorMessage} updateTitle={updateTitle}/>
             </Route>
-            <Route  path="/home">
-              <Home/>
-            </Route>
+           <AuthRoute  path="/home">
+              <Home  showError={updateErrorMessage} updateTitle={updateTitle}/>
+            </AuthRoute>
           </Switch>
+          <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage}/>
         </div>
     </div>
     </Router>
