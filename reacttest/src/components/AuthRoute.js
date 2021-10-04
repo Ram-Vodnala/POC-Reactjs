@@ -5,7 +5,7 @@ function AuthRoute({ children }) {
     return (
       <Route
         render={({ location }) =>
-          localStorage.getItem('email','password') ? (
+          localStorage.getItem('email') ? (
             children
           ) : (
             <Redirect
