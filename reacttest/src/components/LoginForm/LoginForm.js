@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import '../LoginForm/LoginForm.css' ;
+import '../LoginForm/LoginForm.scss' ;
 import { withRouter, useHistory } from "react-router-dom";
 
 function LoginForm(props) {
